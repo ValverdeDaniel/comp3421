@@ -46,8 +46,10 @@ root.geometry('800x400')
 tabControl = ttk.Notebook(root)
 authorTab = ttk.Frame(tabControl)
 publisherTab = ttk.Frame(tabControl)
+categoryTab = ttk.Frame(tabControl)
 tabControl.add(authorTab, text = 'Search By Author')
 tabControl.add(publisherTab, text = 'Search By Publisher')
+tabControl.add(categoryTab, text = 'Search By Category')
 tabControl.pack(expand = 1, fill ="both")
 
 #contents for authorTab Start
@@ -144,6 +146,72 @@ pubCombo2 = ttk.Combobox(publisherTab, width = 20, state="readonly")
 pubCombo2.grid(column=0, row=7)
 myPubList2 = []
 pubCombo2.bind("<<ComboboxSelected>>", fromTitle1Callback)
+##################################################
+#PUBLISHER TAB END
+
+#contents for categoryTab Start
+################################
+
+def fromCategoryCallback(event):
+    # get will get its value - note that this is always a string
+    catSelIndex = event.widget.current()
+    print('catselindex: ', catSelIndex)
+    category = myPubList[catSelIndex]
+    global myCatList2
+    #we have now selected and are populating the second combobox
+    myCatList2 = DAO.henryDB().getCatTitle(category)
+    print('myCatList2: ', myCatList2)
+    catCombo2['values'] = myCatList2
+    print("Index selected is: " + str(catSelIndex))
+    return myCatList2
+    # return myCatList2
+
+def fromTitle1Callback(event):
+    print('heycomcallback2')
+    print("List 2 in call back 2", myCatList2)
+    # get will get its value - note that this is always a string
+    catSelIndex2 = event.widget.current()
+    print(catSelIndex2)
+    title = myCatList2[catSelIndex2]
+    print('title', title)
+    #we have now selected and are populating the tree
+    branchList = DAO.henryDB().getBranch(title)
+    print('branchList', branchList)
+    catCombo2['values'] = branchList
+    #delete extra previous tree results before adding new ones
+    for i in catTree.get_children():  # Remove any old values in tree list
+        catTree.delete(i)
+    #displaying tree results
+    i = 0
+    for row in branchList:
+        catTree.insert("", "end", values=[branchList[i][0], branchList[i][1], branchList[i][2]])
+        i = i+1
+
+# Treeview
+catTree = ttk.Treeview(categoryTab, columns=('Branch', 'Copies', 'Price'), show='headings')
+catTree.heading('Branch', text='Branch Name')
+catTree.heading('Copies', text='Copies Available')
+catTree.heading('Price', text='Price')
+catTree.grid(column=0, row=1)
+
+# Label
+labCategory = ttk.Label(categoryTab)
+labCategory.grid(column=0, row=3)
+labCategory['text'] = "Category Selection:"
+
+# Category ComboBox
+catCombo1 = ttk.Combobox(categoryTab, width = 20, state="readonly")
+catCombo1.grid(column=0, row=5)
+myPubList = DAO.henryDB().getCategory()
+catCombo1['values'] = myPubList
+catCombo1.current(0)
+catCombo1.bind("<<ComboboxSelected>>", fromCategoryCallback)
+
+# Title ComboBox
+catCombo2 = ttk.Combobox(categoryTab, width = 20, state="readonly")
+catCombo2.grid(column=0, row=7)
+myPubList2 = []
+catCombo2.bind("<<ComboboxSelected>>", fromTitle1Callback)
 ##################################################
 #PUBLISHER TAB END
 

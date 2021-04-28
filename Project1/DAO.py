@@ -52,6 +52,7 @@ class henryDB():
         print(myList)
         return(myList)
 
+#TODO update GETBRANCH query to include where author on author tab and where publisher on publisher tab or pass book code through
     def getBranch(self, title):
         # Perform the query
         sql = "SELECT branch.BRANCH_NAME, inventory.ON_HAND, book.PRICE " \
@@ -74,9 +75,9 @@ class henryDB():
         print(myList)
         return(myList)
 
-    ###end author tab queries
+###end author tab queries
 
-    ###start publisher tab queries
+###start publisher tab queries
 
     def getPublisher(self):
 
@@ -111,6 +112,37 @@ class henryDB():
         return(myList)
 
 
+### end publisher queries
+
+### start categories queries
+    def getCategory(self):
+
+        # Perform the query
+        sql = "select DISTINCT TYPE from henry_book;"
+        self.mycur.execute(sql);
+        myList=[]
+        # Display the results
+        for row in self.mycur:
+            BOOK_TYPE = row[0]
+            myList.append(BOOK_TYPE)
+            #print("AUTHOR_NUM: " + str(AUTHOR_NUM) + ", AUTHOR_LAST " + AUTHOR_LAST);
+        print(myList)
+        return(myList)
+
+    def getCatTitle(self, category):
+        sql = "SELECT book.TITLE, book.TYPE " \
+              "FROM henry_book as book " \
+              "WHERE book.TYPE = '" + category + "'"
+
+        self.mycur.execute(sql);
+        myList=[]
+        # Display the results
+        for row in self.mycur:
+            book_title = row[0]
+            myList.append(book_title)
+
+        print(myList)
+        return(myList)
 
 # Testing code
 test = henryDB()
