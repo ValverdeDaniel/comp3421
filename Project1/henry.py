@@ -2,7 +2,7 @@ import tkinter as tk
 import DAO as DAO
 from tkinter import ttk
 
-def comCallback(event):
+def fromAuthorCallback(event):
     # get will get its value - note that this is always a string
     selIndex = event.widget.current()
     print(selIndex)
@@ -15,7 +15,7 @@ def comCallback(event):
     return myList2
     # return myList2
 
-def fromTitleCallback(event):
+def fromTitle1Callback(event):
     # myList2 = DAO.henryDB().getTitle(author)
     print('heycomcallback2')
     print("List 2 in call back 2", myList2)
@@ -45,10 +45,13 @@ root.geometry('800x400')
 # Tab control
 tabControl = ttk.Notebook(root)
 authorTab = ttk.Frame(tabControl)
+publisherTab = ttk.Frame(tabControl)
 tabControl.add(authorTab, text = 'Search By Author')
+tabControl.add(publisherTab, text = 'Search By Publisher')
 tabControl.pack(expand = 1, fill ="both")
 
-#contents for authorTab
+#contents for authorTab Start
+################################
 # Treeview
 tree1 = ttk.Treeview(authorTab, columns=('Branch', 'Copies', 'Price'), show='headings')
 tree1.heading('Branch', text='Branch Name')
@@ -67,14 +70,46 @@ com1.grid(column=0, row=5)
 myList = DAO.henryDB().getAuthor()
 com1['values'] = myList
 com1.current(0)
-com1.bind("<<ComboboxSelected>>", comCallback)
+com1.bind("<<ComboboxSelected>>", fromAuthorCallback)
 
 # Title ComboBox
 com2 = ttk.Combobox(authorTab, width = 20, state="readonly")
 com2.grid(column=0, row=7)
 myList2 = []
-com2.bind("<<ComboboxSelected>>", fromTitleCallback)
+com2.bind("<<ComboboxSelected>>", fromTitle1Callback)
+##################################################
+#author tab end
 
+
+#contents for publisherTab Start
+################################
+# Treeview
+tree1 = ttk.Treeview(publisherTab, columns=('Branch', 'Copies', 'Price'), show='headings')
+tree1.heading('Branch', text='Branch Name')
+tree1.heading('Copies', text='Copies Available')
+tree1.heading('Price', text='Price')
+tree1.grid(column=0, row=1)
+
+# Label
+labPublisher = ttk.Label(publisherTab)
+labPublisher.grid(column=0, row=3)
+labPublisher['text'] = "Publisher Selection:"
+
+# Author ComboBox
+com1 = ttk.Combobox(publisherTab, width = 20, state="readonly")
+com1.grid(column=0, row=5)
+myList = DAO.henryDB().getAuthor()
+com1['values'] = myList
+com1.current(0)
+com1.bind("<<ComboboxSelected>>", fromAuthorCallback)
+
+# Title ComboBox
+com2 = ttk.Combobox(publisherTab, width = 20, state="readonly")
+com2.grid(column=0, row=7)
+myList2 = []
+com2.bind("<<ComboboxSelected>>", fromTitle1Callback)
+##################################################
+#author tab end
 
 root.mainloop()
 
