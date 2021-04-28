@@ -74,6 +74,41 @@ class henryDB():
         print(myList)
         return(myList)
 
+    ###end author tab queries
+
+    ###start publisher tab queries
+
+    def getPublisher(self):
+
+        # Perform the query
+        sql = "select PUBLISHER_CODE, PUBLISHER_NAME from henry_publisher";
+        self.mycur.execute(sql);
+        myList=[]
+        # Display the results
+        for row in self.mycur:
+            PUBLISHER_CODE = row[0]
+            PUBLISHER_NAME = row[1]
+            myList.append(PUBLISHER_NAME)
+            #print("AUTHOR_NUM: " + str(AUTHOR_NUM) + ", AUTHOR_LAST " + AUTHOR_LAST);
+        print(myList)
+        return(myList)
+
+    def getPubTitle(self, publisher):
+        sql = "SELECT book.TITLE " \
+              "FROM henry_publisher as publisher " \
+              "JOIN henry_book as book " \
+              "ON publisher.PUBLISHER_CODE = book.PUBLISHER_CODE " \
+              "WHERE PUBLISHER_NAME = '" + publisher + "'"
+
+        self.mycur.execute(sql);
+        myList=[]
+        # Display the results
+        for row in self.mycur:
+            book_title = row[0]
+            myList.append(book_title)
+
+        print(myList)
+        return(myList)
 
 
 
