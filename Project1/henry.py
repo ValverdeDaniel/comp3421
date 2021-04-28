@@ -22,7 +22,7 @@ def fromTitleCallback(event):
     # get will get its value - note that this is always a string
     selIndex2 = event.widget.current()
     print(selIndex2)
-    title = myList2[0]
+    title = myList2[selIndex2]
     print('title', title)
     #we have now selected and are populating the tree
     branchList = DAO.henryDB().getBranch(title)
