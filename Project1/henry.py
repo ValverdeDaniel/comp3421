@@ -85,20 +85,29 @@ com2.bind("<<ComboboxSelected>>", fromTitle1Callback)
 
 #contents for publisherTab Start
 ################################
+class SBA():
+    # Publisher ComboBox
+    def __init__(self):
+        self.pubCombo1 = ttk.Combobox(publisherTab, width = 20, state="readonly")
+        self.pubCombo1.grid(column=0, row=5)
+        self.myPubList = DAO.henryDB().getPublisher()
+        self.pubCombo1['values'] = self.myPubList
+        self.pubCombo1.current(0)
+        self.pubCombo1.bind("<<ComboboxSelected>>", self.fromPublisherCallback)
 
-def fromPublisherCallback(event):
-    # get will get its value - note that this is always a string
-    pubSelIndex = event.widget.current()
-    print('pubselindex: ', pubSelIndex)
-    publisher = myPubList[pubSelIndex]
-    global myPubList2
-    #we have now selected and are populating the second combobox
-    myPubList2 = DAO.henryDB().getPubTitle(publisher)
-    print('myPubList2: ', myPubList2)
-    pubCombo2['values'] = myPubList2
-    print("Index selected is: " + str(pubSelIndex))
-    return myPubList2
-    # return myPubList2
+    def fromPublisherCallback(event):
+        # get will get its value - note that this is always a string
+        pubSelIndex = event.widget.current()
+        print('pubselindex: ', pubSelIndex)
+        publisher = myPubList[pubSelIndex]
+        global myPubList2
+        #we have now selected and are populating the second combobox
+        myPubList2 = DAO.henryDB().getPubTitle(publisher)
+        print('myPubList2: ', myPubList2)
+        pubCombo2['values'] = myPubList2
+        print("Index selected is: " + str(pubSelIndex))
+        return myPubList2
+        # return myPubList2
 
 def fromTitle1Callback(event):
     print('heycomcallback2')
@@ -133,13 +142,7 @@ labPublisher = ttk.Label(publisherTab)
 labPublisher.grid(column=0, row=3)
 labPublisher['text'] = "Publisher Selection:"
 
-# Publisher ComboBox
-pubCombo1 = ttk.Combobox(publisherTab, width = 20, state="readonly")
-pubCombo1.grid(column=0, row=5)
-myPubList = DAO.henryDB().getPublisher()
-pubCombo1['values'] = myPubList
-pubCombo1.current(0)
-pubCombo1.bind("<<ComboboxSelected>>", fromPublisherCallback)
+
 
 # Title ComboBox
 pubCombo2 = ttk.Combobox(publisherTab, width = 20, state="readonly")
@@ -156,7 +159,7 @@ def fromCategoryCallback(event):
     # get will get its value - note that this is always a string
     catSelIndex = event.widget.current()
     print('catselindex: ', catSelIndex)
-    category = myPubList[catSelIndex]
+    category = myCatList[catSelIndex]
     global myCatList2
     #we have now selected and are populating the second combobox
     myCatList2 = DAO.henryDB().getCatTitle(category)
@@ -186,6 +189,7 @@ def fromTitle1Callback(event):
     for row in branchList:
         catTree.insert("", "end", values=[branchList[i][0], branchList[i][1], branchList[i][2]])
         i = i+1
+    labCategoryPriceV['text'] = branchList[0][2]
 
 # Treeview
 catTree = ttk.Treeview(categoryTab, columns=('Branch', 'Copies', 'Price'), show='headings')
@@ -194,24 +198,40 @@ catTree.heading('Copies', text='Copies Available')
 catTree.heading('Price', text='Price')
 catTree.grid(column=0, row=1)
 
-# Label
-labCategory = ttk.Label(categoryTab)
-labCategory.grid(column=0, row=3)
-labCategory['text'] = "Category Selection:"
+# Label Combo Box 1
+labCategoryCat = ttk.Label(categoryTab)
+labCategoryCat.grid(column=0, row=3)
+labCategoryCat['text'] = "Category Selection:"
 
 # Category ComboBox
 catCombo1 = ttk.Combobox(categoryTab, width = 20, state="readonly")
 catCombo1.grid(column=0, row=5)
-myPubList = DAO.henryDB().getCategory()
-catCombo1['values'] = myPubList
+myCatList = DAO.henryDB().getCategory()
+catCombo1['values'] = myCatList
 catCombo1.current(0)
 catCombo1.bind("<<ComboboxSelected>>", fromCategoryCallback)
 
+#Price Label
+labCategoryBook = ttk.Label(categoryTab)
+labCategoryBook.grid(column=1, row=3)
+labCategoryBook['text'] = "Book Selection"
+
 # Title ComboBox
 catCombo2 = ttk.Combobox(categoryTab, width = 20, state="readonly")
-catCombo2.grid(column=0, row=7)
-myPubList2 = []
+catCombo2.grid(column=1, row=5)
+myCatList2 = []
 catCombo2.bind("<<ComboboxSelected>>", fromTitle1Callback)
+
+#Price Label
+labCategoryPrice = ttk.Label(categoryTab)
+labCategoryPrice.grid(column=1, row=1)
+labCategoryPrice['text'] = "Price:  $"
+#Price Value
+labCategoryPriceV = ttk.Label(categoryTab)
+labCategoryPriceV.grid(column=2, row=1)
+# labCategoryPriceV = []
+
+#
 ##################################################
 #PUBLISHER TAB END
 
