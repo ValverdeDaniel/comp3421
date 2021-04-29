@@ -115,7 +115,7 @@ class henryDAO():
     def getPublisher(self):
 
         # Perform the query
-        sql = "SELECT PUBLISHER_NAME " \
+        sql = "SELECT DISTINCT PUBLISHER_NAME " \
               "FROM henry_book as book " \
               "JOIN henry_inventory as inventory " \
               "ON book.BOOK_CODE = inventory.BOOK_CODE " \

@@ -93,7 +93,7 @@ com2.bind("<<ComboboxSelected>>", fromTitle1Callback)
 tree1 = ttk.Treeview(authorTab, columns=('Branch', 'Copies'), show='headings')
 tree1.heading('Branch', text='Branch Name')
 tree1.heading('Copies', text='Copies Available')
-tree1.grid(column=0, row=1)
+tree1.grid(column=0, row=1, padx = 30, pady = 10)
 #Pre-Populating Tree
 # author = DAO.henryDAO().getAuthor()[0]
 title = DAO.henryDAO().getTitle(author)[0]
@@ -196,7 +196,7 @@ pubCombo2.bind("<<ComboboxSelected>>", fromPubTitleCallback)
 pubTree = ttk.Treeview(publisherTab, columns=('Branch', 'Copies'), show='headings')
 pubTree.heading('Branch', text='Branch Name')
 pubTree.heading('Copies', text='Copies Available')
-pubTree.grid(column=0, row=1)
+pubTree.grid(column=0, row=1, padx = 30, pady = 10)
 #Pre-Populating Tree
 title = DAO.henryDAO().getPubTitle(publisher)[0]
 print('title', title)
@@ -299,7 +299,7 @@ catCombo2.bind("<<ComboboxSelected>>", fromCatTitleCallback)
 catTree = ttk.Treeview(categoryTab, columns=('Branch', 'Copies'), show='headings')
 catTree.heading('Branch', text='Branch Name')
 catTree.heading('Copies', text='Copies Available')
-catTree.grid(column=0, row=1)
+catTree.grid(column=0, row=1, padx = 30, pady = 10)
 #Pre-Populating Initial Tree
 title = DAO.henryDAO().getCatTitle(category)[0]
 print('title', title)
@@ -329,6 +329,7 @@ labCategoryPriceV['text'] = branchList[0][2]
 #Category TAB END
 
 root.mainloop()
+
 
 
 
