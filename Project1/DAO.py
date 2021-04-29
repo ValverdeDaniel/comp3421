@@ -1,9 +1,8 @@
-# first need to make sure connector is installed:
-#  pip install mysql-connector-python
-
 import mysql.connector
 
 class henryDAO():
+
+#THESE FIRST Queries are for the author tab
     def __init__(self):
         self.mydb = mysql.connector.connect(
             user='root',
@@ -69,32 +68,6 @@ class henryDAO():
               "JOIN henry_author as author " \
               "ON wrote.AUTHOR_NUM = author.AUTHOR_NUM " \
               "WHERE book.TITLE = '" + title + "' AND author.AUTHOR_LAST = '" + author + "'"
-
-        self.mycur.execute(sql);
-        myList=[]
-        # Display the results
-        for row in self.mycur:
-            branch_name = row[0]
-            on_hand = float(row[1])
-            price = float(row[2])
-            myList.append([branch_name, on_hand, price])
-
-        print(myList)
-        return(myList)
-
-
-
-
-#TODO update GETBRANCH query to include where author on author tab and where publisher on publisher tab or pass book code through
-    def getBranch(self, title):
-        # Perform the query
-        sql = "SELECT branch.BRANCH_NAME, inventory.ON_HAND, book.PRICE " \
-              "FROM henry_book as book " \
-              "JOIN henry_inventory as inventory " \
-              "ON book.BOOK_CODE = inventory.BOOK_CODE " \
-              "JOIN henry_branch as branch " \
-              "ON inventory.BRANCH_NUM = branch.BRANCH_NUM " \
-              "WHERE book.TITLE = '" + title + "'"
 
         self.mycur.execute(sql);
         myList=[]
@@ -232,6 +205,28 @@ class henryDAO():
         print(myList)
         return(myList)
 
+#THIS WAS MY BACKUP QUERY IN CASE I COULDN"T GET my other more specific branch queries working but those work so this is not being used
+    def getBranch(self, title):
+        # Perform the query
+        sql = "SELECT branch.BRANCH_NAME, inventory.ON_HAND, book.PRICE " \
+              "FROM henry_book as book " \
+              "JOIN henry_inventory as inventory " \
+              "ON book.BOOK_CODE = inventory.BOOK_CODE " \
+              "JOIN henry_branch as branch " \
+              "ON inventory.BRANCH_NUM = branch.BRANCH_NUM " \
+              "WHERE book.TITLE = '" + title + "'"
+
+        self.mycur.execute(sql);
+        myList=[]
+        # Display the results
+        for row in self.mycur:
+            branch_name = row[0]
+            on_hand = float(row[1])
+            price = float(row[2])
+            myList.append([branch_name, on_hand, price])
+
+        print(myList)
+        return(myList)
 # Testing code
 test = henryDAO()
 # test.getBranch()

@@ -1,3 +1,6 @@
+#DANIEL VALVERDE
+#DU-ID #873527848
+
 import tkinter as tk
 import DAO as DAO
 from tkinter import ttk
@@ -34,11 +37,9 @@ def fromAuthorCallback(event):
     myList2 = DAO.henryDAO().getTitle(author)
     com2['values'] = myList2
     print("Index selected is: " + str(selIndex))
-    # return myList2
-    # return myList2
+
 
 def fromTitle1Callback(event):
-    # myList2 = DAO.henryDAO().getTitle(author)
     print('heycomcallback2')
     print("List 2 in call back 2", myList2)
     print('myAuthor', author)
