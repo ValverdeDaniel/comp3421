@@ -2,43 +2,6 @@ import tkinter as tk
 import DAO as DAO
 from tkinter import ttk
 
-def fromAuthorCallback(event):
-    # get will get its value - note that this is always a string
-    selIndex = event.widget.current()
-    print(selIndex)
-    author = myList[selIndex]
-    global myList2
-    #we have now selected and are populating the title combobox2
-    myList2 = DAO.henryDAO().getTitle(author)
-    com2['values'] = myList2
-    print("Index selected is: " + str(selIndex))
-    # return myList2
-    # return myList2
-
-def fromTitle1Callback(event):
-    # myList2 = DAO.henryDAO().getTitle(author)
-    print('heycomcallback2')
-    print("List 2 in call back 2", myList2)
-    # get will get its value - note that this is always a string
-    selIndex2 = event.widget.current()
-    print(selIndex2)
-    title = myList2[selIndex2]
-    print('title', title)
-    #we have now selected and are populating the tree
-    branchList = DAO.henryDAO().getBranch(title)
-    com2['values'] = branchList
-    #delete extra previous tree results before adding new ones
-    for i in tree1.get_children():  # Remove any old values in tree list
-        tree1.delete(i)
-    #displaying tree results
-    i = 0
-    for row in branchList:
-        tree1.insert("", "end", values=[branchList[i][0], branchList[i][1], branchList[i][2]])
-        i = i+1
-    #Populating Price Label
-    labAuthorPriceV['text'] = branchList[0][2]
-
-
 
 # Main window
 root = tk.Tk()
@@ -55,8 +18,49 @@ tabControl.add(publisherTab, text = 'Search By Publisher')
 tabControl.add(categoryTab, text = 'Search By Category')
 tabControl.pack(expand = 1, fill ="both")
 
+
+def fromAuthorCallback(event):
+    # get will get its value - note that this is always a string
+    selIndex = event.widget.current()
+    print(selIndex)
+    global author
+    author = myList[selIndex]
+    global myList2
+    #we have now selected and are populating the title combobox2
+    myList2 = DAO.henryDAO().getTitle(author)
+    com2['values'] = myList2
+    print("Index selected is: " + str(selIndex))
+    # return myList2
+    # return myList2
+
+
 #contents for authorTab Start
 ################################
+
+def fromTitle1Callback(event):
+    # myList2 = DAO.henryDAO().getTitle(author)
+    print('heycomcallback2')
+    print("List 2 in call back 2", myList2)
+    print('myAuthor', author)
+    # get will get its value - note that this is always a string
+    selIndex2 = event.widget.current()
+    print(selIndex2)
+    title = myList2[selIndex2]
+    print('title', title)
+    #we have now selected and are populating the tree
+    branchList = DAO.henryDAO().getAuthorBranch(title, author)
+    com2['values'] = branchList
+    #delete extra previous tree results before adding new ones
+    for i in tree1.get_children():  # Remove any old values in tree list
+        tree1.delete(i)
+    #displaying tree results
+    i = 0
+    for row in branchList:
+        tree1.insert("", "end", values=[branchList[i][0], branchList[i][1], branchList[i][2]])
+        i = i+1
+    #Populating Price Label
+    labAuthorPriceV['text'] = branchList[0][2]
+
 # Treeview
 tree1 = ttk.Treeview(authorTab, columns=('Branch', 'Copies'), show='headings')
 tree1.heading('Branch', text='Branch Name')
@@ -104,6 +108,7 @@ def fromPublisherCallback(event):
     # get will get its value - note that this is always a string
     pubSelIndex = event.widget.current()
     print('pubselindex: ', pubSelIndex)
+    global publisher
     publisher = myPubList[pubSelIndex]
     global myPubList2
     #we have now selected and are populating the second combobox
@@ -117,13 +122,14 @@ def fromPublisherCallback(event):
 def fromPubTitleCallback(event):
     print('heycomcallback2')
     print("List 2 in call back 2", myPubList2)
+    print('my publisher', publisher)
     # get will get its value - note that this is always a string
     pubSelIndex2 = event.widget.current()
     print(pubSelIndex2)
     title = myPubList2[pubSelIndex2]
     print('title', title)
     #we have now selected and are populating the tree
-    branchList = DAO.henryDAO().getBranch(title)
+    branchList = DAO.henryDAO().getPubBranch(title, publisher)
     print('branchList', branchList)
     pubCombo2['values'] = branchList
     #delete extra previous tree results before adding new ones
