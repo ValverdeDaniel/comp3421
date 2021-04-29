@@ -3,7 +3,7 @@
 
 import mysql.connector
 
-class henryDB():
+class henryDAO():
     def __init__(self):
         self.mydb = mysql.connector.connect(
             user='root',
@@ -20,14 +20,18 @@ class henryDB():
     def getAuthor(self):
 
         # Perform the query
-        sql = "SELECT AUTHOR_NUM, AUTHOR_LAST FROM henry_author";
+        sql = "SELECT DISTINCT author.AUTHOR_LAST " \
+              "FROM henry_author as author " \
+              "LEFT JOIN henry_wrote as wrote " \
+              "ON author.AUTHOR_NUM = wrote.AUTHOR_NUM " \
+              "WHERE wrote.BOOK_CODE IS NOT NULL;"
         self.mycur.execute(sql);
         myList=[]
         # Display the results
         for row in self.mycur:
-            AUTHOR_NUM = row[0]
-            AUTHOR_LAST = row[1]
-            myList.append(row[1])
+            # AUTHOR_NUM = row[0]
+            AUTHOR_LAST = row[0]
+            myList.append(AUTHOR_LAST)
             #print("AUTHOR_NUM: " + str(AUTHOR_NUM) + ", AUTHOR_LAST " + AUTHOR_LAST);
         print(myList)
         return(myList)
@@ -153,7 +157,7 @@ class henryDB():
         return(myList)
 
 # Testing code
-test = henryDB()
+test = henryDAO()
 # test.getBranch()
 # test.getTitle()
 test.close()
