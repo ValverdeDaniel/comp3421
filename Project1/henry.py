@@ -86,7 +86,9 @@ labAuthorTitle['text'] = "Title Selection:"
 # Title ComboBox
 com2 = ttk.Combobox(authorTab, width = 20, state="readonly")
 com2.grid(column=1, row=5)
-myList2 = []
+author = DAO.henryDAO().getAuthor()[0]
+myList2 = DAO.henryDAO().getTitle(author)
+com2['values'] = myList2
 com2.bind("<<ComboboxSelected>>", fromTitle1Callback)
 
 #Price Label
@@ -166,7 +168,10 @@ labPublisherTitle['text'] = "Title Selection:"
 # Title ComboBox
 pubCombo2 = ttk.Combobox(publisherTab, width = 20, state="readonly")
 pubCombo2.grid(column=1, row=5)
-myPubList2 = []
+# myPubList2 = []
+publisher = DAO.henryDAO().getPublisher()[0]
+myPubList2 = DAO.henryDAO().getPubTitle(publisher)
+pubCombo2['values'] = myPubList2
 pubCombo2.bind("<<ComboboxSelected>>", fromPubTitleCallback)
 
 #Price Label
@@ -247,7 +252,10 @@ labCategoryBook['text'] = "Book Selection"
 # Title ComboBox
 catCombo2 = ttk.Combobox(categoryTab, width = 20, state="readonly")
 catCombo2.grid(column=1, row=5)
-myCatList2 = []
+# myCatList2 = []
+category = DAO.henryDAO().getCategory()[0]
+myCatList2 = DAO.henryDAO().getCatTitle(category)
+catCombo2['values'] = myCatList2
 catCombo2.bind("<<ComboboxSelected>>", fromCatTitleCallback)
 
 #Price Label
