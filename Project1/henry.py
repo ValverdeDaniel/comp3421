@@ -49,7 +49,6 @@ def fromTitle1Callback(event):
     print('title', title)
     #we have now selected and are populating the tree
     branchList = DAO.henryDAO().getAuthorBranch(title, author)
-    com2['values'] = branchList
     #delete extra previous tree results before adding new ones
     for i in tree1.get_children():  # Remove any old values in tree list
         tree1.delete(i)
@@ -131,7 +130,6 @@ def fromPubTitleCallback(event):
     #we have now selected and are populating the tree
     branchList = DAO.henryDAO().getPubBranch(title, publisher)
     print('branchList', branchList)
-    pubCombo2['values'] = branchList
     #delete extra previous tree results before adding new ones
     for i in pubTree.get_children():  # Remove any old values in tree list
         pubTree.delete(i)
@@ -212,7 +210,6 @@ def fromCatTitleCallback(event):
     #we have now selected and are populating the tree
     branchList = DAO.henryDAO().getCatBranch(title, category)
     print('branchList', branchList)
-    catCombo2['values'] = branchList
     #delete extra previous tree results before adding new ones
     for i in catTree.get_children():  # Remove any old values in tree list
         catTree.delete(i)
