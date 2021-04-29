@@ -8,11 +8,11 @@ def fromAuthorCallback(event):
     print(selIndex)
     author = myList[selIndex]
     global myList2
-    #we have now selected and are populating the tree
+    #we have now selected and are populating the title combobox2
     myList2 = DAO.henryDB().getTitle(author)
     com2['values'] = myList2
     print("Index selected is: " + str(selIndex))
-    return myList2
+    # return myList2
     # return myList2
 
 def fromTitle1Callback(event):
