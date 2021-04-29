@@ -19,6 +19,10 @@ tabControl.add(categoryTab, text = 'Search By Category')
 tabControl.pack(expand = 1, fill ="both")
 
 
+#contents for authorTab Start
+#Technically where class HenrySBA() should have started
+################################
+
 def fromAuthorCallback(event):
     # get will get its value - note that this is always a string
     selIndex = event.widget.current()
@@ -32,10 +36,6 @@ def fromAuthorCallback(event):
     print("Index selected is: " + str(selIndex))
     # return myList2
     # return myList2
-
-
-#contents for authorTab Start
-################################
 
 def fromTitle1Callback(event):
     # myList2 = DAO.henryDAO().getTitle(author)
@@ -59,7 +59,6 @@ def fromTitle1Callback(event):
         i = i+1
     #Populating Price Label
     labAuthorPriceV['text'] = branchList[0][2]
-
 
 
 # Label
@@ -107,8 +106,6 @@ for row in branchList:
     tree1.insert("", "end", values=[branchList[i][0], branchList[i][1], branchList[i][2]])
     i = i+1
 
-
-
 #Price Label
 labAuthorPrice = ttk.Label(authorTab)
 labAuthorPrice.grid(column=1, row=1)
@@ -116,14 +113,15 @@ labAuthorPrice['text'] = "Price:  $"
 #Price Value
 labAuthorPriceV = ttk.Label(authorTab)
 labAuthorPriceV.grid(column=2, row=1)
-
 #Pre-Populating Price Label
 labAuthorPriceV['text'] = branchList[0][2]
+
 ##################################################
 #author tab end
 
 
 #contents for publisherTab Start
+#Technically where class HenrySPA() should have started
 ################################
 
 def fromPublisherCallback(event):
@@ -162,7 +160,6 @@ def fromPubTitleCallback(event):
         pubTree.insert("", "end", values=[branchList[i][0], branchList[i][1]])
         i = i+1
     labPublisherPriceV['text'] = branchList[0][2]
-
 
 
 # Label
@@ -211,7 +208,6 @@ for row in branchList:
     pubTree.insert("", "end", values=[branchList[i][0], branchList[i][1]])
     i = i+1
 
-
 #Price Label
 labPublisherPrice = ttk.Label(publisherTab)
 labPublisherPrice.grid(column=1, row=1)
@@ -225,7 +221,9 @@ labPublisherPriceV['text'] = branchList[0][2]
 ##################################################
 #PUBLISHER TAB END
 
+
 #contents for categoryTab Start
+#Technically where class HenrySCA() should have started
 ################################
 
 def fromCategoryCallback(event):
@@ -293,7 +291,6 @@ category = DAO.henryDAO().getCategory()[0]
 myCatList2 = DAO.henryDAO().getCatTitle(category)
 catCombo2['values'] = myCatList2
 catCombo2.bind("<<ComboboxSelected>>", fromCatTitleCallback)
-
 
 # Treeview
 catTree = ttk.Treeview(categoryTab, columns=('Branch', 'Copies'), show='headings')
