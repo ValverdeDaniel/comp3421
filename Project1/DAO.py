@@ -82,13 +82,21 @@ class henryDB():
     def getPublisher(self):
 
         # Perform the query
-        sql = "select PUBLISHER_CODE, PUBLISHER_NAME from henry_publisher";
+        sql = "SELECT PUBLISHER_NAME " \
+              "FROM henry_book as book " \
+              "JOIN henry_inventory as inventory " \
+              "ON book.BOOK_CODE = inventory.BOOK_CODE " \
+              "JOIN henry_branch as branch " \
+              "ON inventory.BRANCH_NUM = branch.BRANCH_NUM " \
+              "RIGHT JOIN henry_publisher as publisher " \
+              "ON publisher.PUBLISHER_CODE = book.PUBLISHER_CODE " \
+              "WHERE book.TITLE IS NOT NULL;"
+
         self.mycur.execute(sql);
         myList=[]
         # Display the results
         for row in self.mycur:
-            PUBLISHER_CODE = row[0]
-            PUBLISHER_NAME = row[1]
+            PUBLISHER_NAME = row[0]
             myList.append(PUBLISHER_NAME)
             #print("AUTHOR_NUM: " + str(AUTHOR_NUM) + ", AUTHOR_LAST " + AUTHOR_LAST);
         print(myList)
