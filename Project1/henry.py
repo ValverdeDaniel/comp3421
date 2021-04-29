@@ -60,11 +60,7 @@ def fromTitle1Callback(event):
     #Populating Price Label
     labAuthorPriceV['text'] = branchList[0][2]
 
-# Treeview
-tree1 = ttk.Treeview(authorTab, columns=('Branch', 'Copies'), show='headings')
-tree1.heading('Branch', text='Branch Name')
-tree1.heading('Copies', text='Copies Available')
-tree1.grid(column=0, row=1)
+
 
 # Label
 labAuthor = ttk.Label(authorTab)
@@ -83,13 +79,35 @@ com1.bind("<<ComboboxSelected>>", fromAuthorCallback)
 labAuthorTitle = ttk.Label(authorTab)
 labAuthorTitle.grid(column=1, row=3)
 labAuthorTitle['text'] = "Title Selection:"
+
 # Title ComboBox
 com2 = ttk.Combobox(authorTab, width = 20, state="readonly")
 com2.grid(column=1, row=5)
+#Pre-Populating Initial ComboBox2
 author = DAO.henryDAO().getAuthor()[0]
 myList2 = DAO.henryDAO().getTitle(author)
 com2['values'] = myList2
 com2.bind("<<ComboboxSelected>>", fromTitle1Callback)
+
+# Treeview
+tree1 = ttk.Treeview(authorTab, columns=('Branch', 'Copies'), show='headings')
+tree1.heading('Branch', text='Branch Name')
+tree1.heading('Copies', text='Copies Available')
+tree1.grid(column=0, row=1)
+#Pre-Populating Tree
+# author = DAO.henryDAO().getAuthor()[0]
+title = DAO.henryDAO().getTitle(author)[0]
+branchList = DAO.henryDAO().getAuthorBranch(title, author)
+#delete extra previous tree results before adding new ones
+for i in tree1.get_children():  # Remove any old values in tree list
+    tree1.delete(i)
+#displaying tree results
+i = 0
+for row in branchList:
+    tree1.insert("", "end", values=[branchList[i][0], branchList[i][1], branchList[i][2]])
+    i = i+1
+
+
 
 #Price Label
 labAuthorPrice = ttk.Label(authorTab)
@@ -98,6 +116,9 @@ labAuthorPrice['text'] = "Price:  $"
 #Price Value
 labAuthorPriceV = ttk.Label(authorTab)
 labAuthorPriceV.grid(column=2, row=1)
+
+#Pre-Populating Price Label
+labAuthorPriceV['text'] = branchList[0][2]
 ##################################################
 #author tab end
 
@@ -142,11 +163,7 @@ def fromPubTitleCallback(event):
         i = i+1
     labPublisherPriceV['text'] = branchList[0][2]
 
-# Treeview
-pubTree = ttk.Treeview(publisherTab, columns=('Branch', 'Copies'), show='headings')
-pubTree.heading('Branch', text='Branch Name')
-pubTree.heading('Copies', text='Copies Available')
-pubTree.grid(column=0, row=1)
+
 
 # Label
 labPublisher = ttk.Label(publisherTab)
@@ -168,11 +185,32 @@ labPublisherTitle['text'] = "Title Selection:"
 # Title ComboBox
 pubCombo2 = ttk.Combobox(publisherTab, width = 20, state="readonly")
 pubCombo2.grid(column=1, row=5)
+#Pre-Populating Initial ComboBox2
 # myPubList2 = []
 publisher = DAO.henryDAO().getPublisher()[0]
 myPubList2 = DAO.henryDAO().getPubTitle(publisher)
 pubCombo2['values'] = myPubList2
 pubCombo2.bind("<<ComboboxSelected>>", fromPubTitleCallback)
+
+# Treeview
+pubTree = ttk.Treeview(publisherTab, columns=('Branch', 'Copies'), show='headings')
+pubTree.heading('Branch', text='Branch Name')
+pubTree.heading('Copies', text='Copies Available')
+pubTree.grid(column=0, row=1)
+#Pre-Populating Tree
+title = DAO.henryDAO().getPubTitle(publisher)[0]
+print('title', title)
+branchList = DAO.henryDAO().getPubBranch(title, publisher)
+print('branchList', branchList)
+#delete extra previous tree results before adding new ones
+for i in pubTree.get_children():  # Remove any old values in tree list
+    pubTree.delete(i)
+#displaying tree results
+i = 0
+for row in branchList:
+    pubTree.insert("", "end", values=[branchList[i][0], branchList[i][1]])
+    i = i+1
+
 
 #Price Label
 labPublisherPrice = ttk.Label(publisherTab)
@@ -181,6 +219,8 @@ labPublisherPrice['text'] = "Price:  $"
 #Price Value
 labPublisherPriceV = ttk.Label(publisherTab)
 labPublisherPriceV.grid(column=2, row=1)
+#Pre-Populating Price Label
+labPublisherPriceV['text'] = branchList[0][2]
 
 ##################################################
 #PUBLISHER TAB END
@@ -225,11 +265,6 @@ def fromCatTitleCallback(event):
         i = i+1
     labCategoryPriceV['text'] = branchList[0][2]
 
-# Treeview
-catTree = ttk.Treeview(categoryTab, columns=('Branch', 'Copies'), show='headings')
-catTree.heading('Branch', text='Branch Name')
-catTree.heading('Copies', text='Copies Available')
-catTree.grid(column=0, row=1)
 
 # Label Combo Box 1
 labCategoryCat = ttk.Label(categoryTab)
@@ -253,10 +288,31 @@ labCategoryBook['text'] = "Book Selection"
 catCombo2 = ttk.Combobox(categoryTab, width = 20, state="readonly")
 catCombo2.grid(column=1, row=5)
 # myCatList2 = []
+#Pre-Populating Initial ComboBox2
 category = DAO.henryDAO().getCategory()[0]
 myCatList2 = DAO.henryDAO().getCatTitle(category)
 catCombo2['values'] = myCatList2
 catCombo2.bind("<<ComboboxSelected>>", fromCatTitleCallback)
+
+
+# Treeview
+catTree = ttk.Treeview(categoryTab, columns=('Branch', 'Copies'), show='headings')
+catTree.heading('Branch', text='Branch Name')
+catTree.heading('Copies', text='Copies Available')
+catTree.grid(column=0, row=1)
+#Pre-Populating Initial Tree
+title = DAO.henryDAO().getCatTitle(category)[0]
+print('title', title)
+branchList = DAO.henryDAO().getCatBranch(title, category)
+print('branchList', branchList)
+#delete extra previous tree results before adding new ones
+for i in catTree.get_children():  # Remove any old values in tree list
+    catTree.delete(i)
+#displaying tree results
+i = 0
+for row in branchList:
+    catTree.insert("", "end", values=[branchList[i][0], branchList[i][1]])
+    i = i+1
 
 #Price Label
 labCategoryPrice = ttk.Label(categoryTab)
@@ -265,6 +321,8 @@ labCategoryPrice['text'] = "Price:  $"
 #Price Value
 labCategoryPriceV = ttk.Label(categoryTab)
 labCategoryPriceV.grid(column=2, row=1)
+#Pre-Populating Initial Price Label
+labCategoryPriceV['text'] = branchList[0][2]
 
 #
 ##################################################
