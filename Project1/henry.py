@@ -189,6 +189,7 @@ def fromCategoryCallback(event):
     # get will get its value - note that this is always a string
     catSelIndex = event.widget.current()
     print('catselindex: ', catSelIndex)
+    global category
     category = myCatList[catSelIndex]
     global myCatList2
     #we have now selected and are populating the second combobox
@@ -202,13 +203,14 @@ def fromCategoryCallback(event):
 def fromCatTitleCallback(event):
     print('heycomcallback2')
     print("List 2 in call back 2", myCatList2)
+    print('my category: ', category)
     # get will get its value - note that this is always a string
     catSelIndex2 = event.widget.current()
     print(catSelIndex2)
     title = myCatList2[catSelIndex2]
     print('title', title)
     #we have now selected and are populating the tree
-    branchList = DAO.henryDAO().getBranch(title)
+    branchList = DAO.henryDAO().getCatBranch(title, category)
     print('branchList', branchList)
     catCombo2['values'] = branchList
     #delete extra previous tree results before adding new ones

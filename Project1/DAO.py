@@ -210,6 +210,28 @@ class henryDAO():
         print(myList)
         return(myList)
 
+    def getCatBranch(self, title, category):
+        # Perform the query
+        sql = "SELECT branch.BRANCH_NAME, inventory.ON_HAND, book.PRICE, book.TITLE " \
+              "FROM henry_book as book " \
+              "JOIN henry_inventory as inventory " \
+              "ON book.BOOK_CODE = inventory.BOOK_CODE " \
+              "JOIN henry_branch as branch " \
+              "ON inventory.BRANCH_NUM = branch.BRANCH_NUM " \
+              "WHERE book.TYPE = '" + category + "' AND book.TITLE = '" + title + "'"
+
+        self.mycur.execute(sql);
+        myList=[]
+        # Display the results
+        for row in self.mycur:
+            branch_name = row[0]
+            on_hand = float(row[1])
+            price = float(row[2])
+            myList.append([branch_name, on_hand, price])
+
+        print(myList)
+        return(myList)
+
 # Testing code
 test = henryDAO()
 # test.getBranch()
